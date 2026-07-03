@@ -27,6 +27,6 @@
     "rollup": "^3.29.5"
   },
   "dependencies": {
-    "throttle-debounce": "^5.0.0"
+    "throttle-debounce": "^5.0.2"
   }
 }
