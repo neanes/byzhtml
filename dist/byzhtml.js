@@ -1,4 +1,4 @@
-// byzhtml v1.0.24
+// byzhtml v1.0.25
 var byzhtml = (function () {
   'use strict';
 
@@ -7355,7 +7355,7 @@ var byzhtml = (function () {
       for (const fontFamily of fontFamilies) {
         try {
           const response = await fetch(
-            `https://cdn.jsdelivr.net/gh/neanes/byzhtml@1.0.24/dist/${fontFamily.toLowerCase()}.metadata.json`,
+            `https://cdn.jsdelivr.net/gh/neanes/byzhtml@1.0.25/dist/${fontFamily.toLowerCase()}.metadata.json`,
           );
 
           const data = await response.json();
