@@ -2,7 +2,7 @@
 
 A library of custom web components for displaying Byzantine Chant neumes in HTML.
 
-For more information read [the documentation](https://danielgarthur.github.io/byzhtml/).
+For more information read [the documentation](https://neanes.github.io/byzhtml/).
 
 ## Examples
 

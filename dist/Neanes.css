@@ -1,18 +1,18 @@
 @font-face {
   font-family: 'Neanes';
-  src: url(https://cdn.jsdelivr.net/gh/danielgarthur/byzhtml@1.0.24/dist/Neanes.otf);
+  src: url(https://cdn.jsdelivr.net/gh/neanes/byzhtml@1.0.24/dist/Neanes.otf);
   unicode-range: U+E000–F8FF;
 }
 
 @font-face {
   font-family: 'NeanesRTL';
-  src: url(https://cdn.jsdelivr.net/gh/danielgarthur/byzhtml@1.0.24/dist/NeanesRTL.otf);
+  src: url(https://cdn.jsdelivr.net/gh/neanes/byzhtml@1.0.24/dist/NeanesRTL.otf);
   unicode-range: U+E000–F8FF;
 }
 
 @font-face {
   font-family: 'NeanesStathisSeries';
-  src: url(https://cdn.jsdelivr.net/gh/danielgarthur/byzhtml@1.0.24/dist/NeanesStathisSeries.otf);
+  src: url(https://cdn.jsdelivr.net/gh/neanes/byzhtml@1.0.24/dist/NeanesStathisSeries.otf);
   unicode-range: U+E000–F8FF;
 }
 
