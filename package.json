@@ -12,7 +12,8 @@
     "dev": "rollup -c -m -w",
     "docs:dev": "docsify serve ./docs -p3001",
     "examples": "node ./examples/server.js",
-    "prettier": "prettier --write \"./**/*.{ts,js}\"",
+    "lint": "prettier --check \"./**/*.{ts,js}\"",
+    "lint:fix": "prettier --write \"./**/*.{ts,js}\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "danielgarthur",
