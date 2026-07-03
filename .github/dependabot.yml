@@ -10,8 +10,6 @@ updates:
       prefix: 'chore'
     cooldown:
       default-days: 7
-    labels:
-      - 'Type: Dependencies'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
@@ -20,5 +18,3 @@ updates:
       prefix: 'chore'
     cooldown:
       default-days: 7
-    labels:
-      - 'Type: Dependencies'
