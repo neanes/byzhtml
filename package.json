@@ -20,13 +20,17 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^15.3.0",
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^1.0.0",
     "minimist": "^1.2.8",
     "prettier": "^3.8.5",
-    "rollup": "^3.29.5"
+    "rollup": "^4.62.2"
   },
   "dependencies": {
     "throttle-debounce": "^5.0.2"
+  },
+  "packageManager": "npm@11.12.1",
+  "engines": {
+    "node": ">=22"
   }
 }
