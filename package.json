@@ -20,7 +20,7 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "minimist": "^1.2.8",
     "prettier": "^3.8.5",
