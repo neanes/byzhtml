@@ -234,7 +234,7 @@ Hyphenation also uses the `x-melisma` component. Hyphens may be automatically ca
 ```
 
 <!-- prettier-ignore -->
-Result: 
+Result:
 <x-note>
   <x-ison></x-ison>
   <x-lyric>Re</x-lyric>
@@ -263,7 +263,7 @@ Result:
 !> If your HTML editor automatically removes whitespace, then you may want to disable that feature, or use the `&nbsp;` character instead. E.g. `<x-melisma>&nbsp;-</x-melisma>`
 
 <!-- prettier-ignore -->
-Result: 
+Result:
 <x-note>
   <x-ison></x-ison>
   <x-lyric>Re</x-lyric>

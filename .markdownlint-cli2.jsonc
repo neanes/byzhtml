@@ -1,0 +1,10 @@
+{
+  "globs": ["*.md", "docs/**/*.md", "examples/**/*.md"],
+  "config": {
+    "MD013": false,
+    "MD033": false,
+    "MD041": {
+      "allow_preamble": true
+    }
+  }
+}

@@ -1,0 +1,3 @@
+dist/*.js
+docs/_media/*.js
+lib/components/characters/codegen/*.js
