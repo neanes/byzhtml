@@ -5,17 +5,17 @@ fi
 
 cd ..
 
-FROM=$(sed 's/.*"version": "\(.*\)".*/\1/;t;d' package.json)
+FROM=$(node -p "require('./package.json').version")
 
-npm --no-git-tag-version version $1
+npm --no-git-tag-version version "$1"
 
-TO=$(sed 's/.*"version": "\(.*\)".*/\1/;t;d' package.json)
+TO=$(node -p "require('./package.json').version")
 
 echo "Bumping from $FROM to $TO"
 
-sed -i -e "s/@$FROM/@$TO/g" dist/Neanes.css
-sed -i -e "s/@$FROM/@$TO/g" docs/installation.md
-sed -i -e "s/@$FROM/@$TO/g" index.js
+sed -i '' "s/@$FROM/@$TO/g" dist/Neanes.css
+sed -i '' "s/@$FROM/@$TO/g" docs/installation.md
+sed -i '' "s/@$FROM/@$TO/g" index.js
 
 npm run build
 
