@@ -1695,12 +1695,19 @@ var byzhtml = (function () {
   class TextMetrics {
     static canvas;
     static cache = new Map();
+    static metricCache = new Map();
+
+    static getContext() {
+      const canvas = this.canvas || document.createElement('canvas');
+      this.canvas = canvas;
+
+      return canvas.getContext('2d');
+    }
 
     static getTextWidth(text, font) {
-      let canvas = this.canvas || document.createElement('canvas');
-      let context = canvas.getContext('2d');
+      const context = TextMetrics.getContext();
       context.font = font;
-      let metrics = context.measureText(text);
+      const metrics = context.measureText(text);
       return metrics.width;
     }
 
@@ -1716,6 +1723,51 @@ var byzhtml = (function () {
       }
 
       return width;
+    }
+
+    static getFontBoundingBoxDescentFromCache(font) {
+      const key = `fontBoundingBoxDescent | ${font}`;
+
+      let descent = TextMetrics.metricCache.get(key);
+
+      if (descent == null) {
+        const context = TextMetrics.getContext();
+        context.font = font;
+
+        const metrics = context.measureText('M');
+        descent =
+          metrics.fontBoundingBoxDescent ?? metrics.actualBoundingBoxDescent ?? 0;
+
+        TextMetrics.metricCache.set(key, descent);
+      }
+
+      return descent;
+    }
+
+    static getFontHeight(font) {
+      const key = `fontHeight | ${font}`;
+
+      let height = TextMetrics.metricCache.get(key);
+
+      if (height == null) {
+        const context = this.getContext();
+
+        context.font = font;
+        const metrics = context.measureText('M');
+
+        height =
+          metrics.fontBoundingBoxAscent != null &&
+          metrics.fontBoundingBoxDescent != null
+            ? metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent
+            : metrics.actualBoundingBoxAscent != null &&
+                metrics.actualBoundingBoxDescent != null
+              ? metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
+              : 0;
+
+        TextMetrics.metricCache.set(key, height);
+      }
+
+      return height;
     }
   }
 
@@ -1823,17 +1875,10 @@ var byzhtml = (function () {
 
         change.right = `${melismaWidth / 2 + widthOfHyphen / 2}px`;
       } else {
-        const widthOfUnderscore = TextMetrics.getTextWidthFromCache('_', font);
-
-        const numberOfUnderscoresNeeded = Math.ceil(
-          melismaWidth / widthOfUnderscore,
-        );
-
-        for (let i = 0; i < numberOfUnderscoresNeeded; i++) {
-          text += '_';
-        }
-
         change.width = `${melismaWidth}px`;
+        change.top = `${-TextMetrics.getFontBoundingBoxDescentFromCache(font)}px`;
+        change.height = `${TextMetrics.getFontHeight(font)}px`;
+        change.borderMelisma = true;
       }
 
       change.textContent = text;
@@ -1967,6 +2012,20 @@ var byzhtml = (function () {
 
       if (change.right != null) {
         change.melisma.setAttribute('right', change.right);
+      }
+
+      if (change.top != null) {
+        change.melisma.setAttribute('top', change.top);
+      }
+
+      if (change.height != null) {
+        change.melisma.setAttribute('height', change.height);
+      }
+
+      if (change.borderMelisma) {
+        change.melisma.setAttribute('border', '');
+      } else {
+        change.melisma.removeAttribute('border');
       }
     }
   }
@@ -2271,7 +2330,7 @@ var byzhtml = (function () {
 
   class Melisma extends HTMLElement {
     static get observedAttributes() {
-      return ['width', 'right'];
+      return ['width', 'right', 'top', 'height', 'border'];
     }
 
     constructor() {
@@ -2297,6 +2356,9 @@ var byzhtml = (function () {
     updateStyle() {
       let width = '';
       let paddingLeft = '';
+      let top = '';
+      let height = '';
+      let borderBottom = '';
 
       if (this.hasAttribute('width')) {
         width = `width: ${this.getAttribute('width')};`;
@@ -2306,18 +2368,39 @@ var byzhtml = (function () {
         paddingLeft = `padding-left: ${this.getAttribute('right')};`;
       }
 
+      if (this.hasAttribute('border') && this.hasAttribute('top')) {
+        top = `transform: translateY(${this.getAttribute('top')});`;
+      }
+
+      if (this.hasAttribute('border') && this.hasAttribute('height')) {
+        height = `height: ${this.getAttribute('height')};`;
+      }
+
+      if (this.hasAttribute('border')) {
+        borderBottom = `border-bottom: 1px solid currentColor;`;
+      }
+
+      // Border-based melismas need a small extra horizontal nudge so the line
+      // starts cleanly against the lyric offset instead of tucking under it.
+      const marginLeft = this.hasAttribute('border')
+        ? `calc(-1* var(--byz-lyric-offset-h) + 2px)`
+        : `calc(-1* var(--byz-lyric-offset-h))`;
+
       this.shadowRoot.innerHTML = `
     <style>
-      .melisma {
-        position: absolute;
+        .melisma {
+          position: absolute;
         display: inline-flex;
         overflow: hidden!important;
         white-space: pre;
         font-family: var(${CssVars.LyricFontFamily});
         font-size: var(${CssVars.LyricFontSize});
-        margin-left: calc(-1* var(${CssVars.LyricOffsetHorizontal})); 
+        margin-left: ${marginLeft};
         ${width}
         ${paddingLeft}
+        ${borderBottom}
+        ${top}
+        ${height}
       }
     </style>
     <span class="melisma"><slot></slot></span>`;

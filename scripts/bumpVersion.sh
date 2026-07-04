@@ -20,6 +20,7 @@ sed -i -e "s/@$FROM/@$TO/g" index.js
 npm run build
 
 cp -f dist/byzhtml.min.js docs/_media/byzhtml.min.js
+cp -f dist/byzhtml.min.js.map docs/_media/byzhtml.min.js.map
 
 #git tag v$TO
 #git push origin v$TO
